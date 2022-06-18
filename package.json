@@ -1,0 +1,29 @@
+{
+  "name": "er-uno",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "svelte:dev": "cd svelte && npm run dev",
+    "svelte:build": "cd svelte && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ErcouldnT/er-uno.git"
+  },
+  "author": "Ercode",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ErcouldnT/er-uno/issues"
+  },
+  "homepage": "https://github.com/ErcouldnT/er-uno#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
