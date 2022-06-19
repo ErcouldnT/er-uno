@@ -52,8 +52,12 @@
     };
   };
 
+  const clearChat = () => {
+    messages = [];
+  };
+
   // Game
-  
+
 
   const addCardIds = (array) => {
     for (let i = 0; i < array.length; i++) {
@@ -202,9 +206,10 @@
         {#each messages as message}
           <p class="mx-1 text-left"><span class="font-semibold">{message.isim}</span>: {message.message}</p>
         {/each}
+        <button class="bg-red-700 w-full" on:click={clearChat}>Temizle</button>
       {/if}
       <form on:submit|preventDefault={mesajGonder}>
-        <input bind:value={message} class="px-2 text-blue-900" placeholder="Mesaj gönder" type="text">
+        <input bind:value={message} class="w-full px-2 text-blue-900" placeholder="Mesaj gönder" type="text">
       </form>
     </div>
     <div class="rounded border absolute right-1 top-1 w-28">
