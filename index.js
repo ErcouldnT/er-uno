@@ -119,6 +119,7 @@ io.on('connection', socket => {
       let revealCards = [];
       revealCards.push(deck.pop());
       io.emit("reveal-cards", revealCards);
+      io.emit("remaining", deck.length);
       isGameStarted = true;
       io.emit("game-started");
     };

@@ -3,12 +3,13 @@
   export let color;
 </script>
 
-{#if !number && !color}
+{#if number && !color}
   <div class="card">
     <span class="inner">
-      <span class="mark"></span>
+      {number}
     </span>
   </div>
+  <p>Yeni kart</p>
 {:else}
   <div class="card num-{number} {color}">
     <span class="inner">

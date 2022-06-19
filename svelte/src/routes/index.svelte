@@ -57,7 +57,7 @@
   };
 
   // Game
-
+  const remaining = {};
 
   const addCardIds = (array) => {
     for (let i = 0; i < array.length; i++) {
@@ -101,6 +101,10 @@
     socket.on("game-started", () => {
       isGameStarted = true;
       console.log("Game is started!");
+    });
+
+    socket.on("remaining", number => {
+      remaining.number = number;
     });
 
     socket.on("your-hand", hand => {
@@ -180,7 +184,7 @@
     <div class="flex flex-row">
       <div>
         <!-- <p class="text-blue-100 left-0 top-0 relative">Kart çek</p> -->
-        <Card />
+        <Card {...remaining}/>
       </div>
       <Card {...lastReveal}/>
     </div>
