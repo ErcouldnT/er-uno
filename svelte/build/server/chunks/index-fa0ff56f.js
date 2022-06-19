@@ -93,4 +93,4 @@ function add_attribute(name, value, boolean) {
   const assignment = boolean && value === true ? "" : `="${escape_attribute_value(value.toString())}"`;
   return ` ${name}${assignment}`;
 }
-export { add_attribute as a, each as b, create_ssr_component as c, escape as e, missing_component as m, setContext as s, validate_component as v };
+export { each as a, add_attribute as b, create_ssr_component as c, escape as e, missing_component as m, setContext as s, validate_component as v };

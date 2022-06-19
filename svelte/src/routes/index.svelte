@@ -5,6 +5,7 @@
 <script>
   import { onMount } from "svelte";
   import { socket } from "$lib/realtime.js";
+  import Card from "$lib/Card.svelte";
 
   let isim;
   let girisYapmis = false;

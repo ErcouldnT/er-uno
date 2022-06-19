@@ -1,9 +1,9 @@
 export const manifest = {
 	appDir: "_app",
-	assets: new Set(["favicon.png"]),
-	mimeTypes: {".png":"image/png"},
+	assets: new Set(["UNO-Front.png","favicon.png","uno-logo.webp"]),
+	mimeTypes: {".png":"image/png",".webp":"image/webp"},
 	_: {
-		entry: {"file":"start-79b0fef5.js","js":["start-79b0fef5.js","chunks/index-414e08b6.js"],"css":[]},
+		entry: {"file":"start-00edef05.js","js":["start-00edef05.js","chunks/index-414e08b6.js"],"css":[]},
 		nodes: [
 			() => import('./nodes/0.js'),
 			() => import('./nodes/1.js'),

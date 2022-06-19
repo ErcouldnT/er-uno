@@ -1,6 +1,6 @@
-import { c as create_ssr_component, a as add_attribute, b as each, e as escape } from "../../chunks/index-1259f1f6.js";
+import { c as create_ssr_component, b as add_attribute, a as each, e as escape } from "../../chunks/index-fa0ff56f.js";
 import ioClient from "socket.io-client";
-ioClient("/");
+/* empty css                                                        */ioClient("/");
 const Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let isim;
   let players = [];
