@@ -4,7 +4,7 @@
     "src": ".svelte-kit/build/index.js",
     "isEntry": true,
     "imports": [
-      "_index-2835083a.js"
+      "_index-1259f1f6.js"
     ],
     "dynamicImports": [
       ".svelte-kit/build/hooks.js"
@@ -15,10 +15,10 @@
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "imports": [
-      "_index-2835083a.js"
+      "_index-1259f1f6.js"
     ],
     "css": [
-      "assets/entries/pages/__layout.svelte-29c1baa4.css"
+      "assets/entries/pages/__layout.svelte-112d6a36.css"
     ]
   },
   ".svelte-kit/runtime/components/error.svelte": {
@@ -26,7 +26,15 @@
     "src": ".svelte-kit/runtime/components/error.svelte",
     "isEntry": true,
     "imports": [
-      "_index-2835083a.js"
+      "_index-1259f1f6.js"
+    ]
+  },
+  "src/routes/cards.svelte": {
+    "file": "entries/pages/cards.svelte.js",
+    "src": "src/routes/cards.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index-1259f1f6.js"
     ]
   },
   "src/routes/index.svelte": {
@@ -34,11 +42,11 @@
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "imports": [
-      "_index-2835083a.js"
+      "_index-1259f1f6.js"
     ]
   },
-  "_index-2835083a.js": {
-    "file": "chunks/index-2835083a.js"
+  "_index-1259f1f6.js": {
+    "file": "chunks/index-1259f1f6.js"
   },
   ".svelte-kit/build/hooks.js": {
     "file": "chunks/hooks-1c45ba0b.js",
