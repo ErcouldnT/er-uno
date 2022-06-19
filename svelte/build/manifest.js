@@ -3,7 +3,7 @@ export const manifest = {
 	assets: new Set(["UNO-Front.png","favicon.png","uno-logo.webp"]),
 	mimeTypes: {".png":"image/png",".webp":"image/webp"},
 	_: {
-		entry: {"file":"start-00edef05.js","js":["start-00edef05.js","chunks/index-414e08b6.js"],"css":[]},
+		entry: {"file":"start-fff790ba.js","js":["start-fff790ba.js","chunks/index-4b63fbd4.js"],"css":[]},
 		nodes: [
 			() => import('./server/nodes/0.js'),
 			() => import('./server/nodes/1.js'),

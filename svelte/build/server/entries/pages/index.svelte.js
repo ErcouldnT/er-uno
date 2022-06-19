@@ -4,6 +4,15 @@ import ioClient from "socket.io-client";
 const Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let isim;
   let players = [];
+  let yourHand = [];
+  const addCardIds = (array) => {
+    for (let i = 0; i < array.length; i++) {
+      const card = array[i];
+      card.id = i + 1;
+    }
+    return array;
+  };
+  addCardIds(yourHand);
   return `${$$result.head += `${$$result.title = `<title>\xC7a\u011Fr\u0131 Uno!</title>`, ""}`, ""}
 
 

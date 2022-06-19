@@ -28,8 +28,7 @@ const Card = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   if ($$props.color === void 0 && $$bindings.color && color !== void 0)
     $$bindings.color(color);
   $$result.css.add(css);
-  return `<div class="${"card num-" + escape(number) + " " + escape(color) + " svelte-1iqr3nc"}"><span class="${"inner svelte-1iqr3nc"}"><span class="${"mark svelte-1iqr3nc"}">${escape(number)}</span></span>
-</div>`;
+  return `${!number && !color ? `<div class="${"card svelte-1iqr3nc"}"><span class="${"inner svelte-1iqr3nc"}"><span class="${"mark svelte-1iqr3nc"}"></span></span></div>` : `<div class="${"card num-" + escape(number) + " " + escape(color) + " svelte-1iqr3nc"}"><span class="${"inner svelte-1iqr3nc"}"><span class="${"mark svelte-1iqr3nc"}">${escape(number)}</span></span></div>`}`;
 });
 const Cards = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let cards = [];

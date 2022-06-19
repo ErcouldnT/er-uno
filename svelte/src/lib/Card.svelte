@@ -3,11 +3,19 @@
   export let color;
 </script>
 
-<div class="card num-{number} {color}">
-  <span class="inner">
-    <span class="mark">{number}</span>
-  </span>
-</div>
+{#if !number && !color}
+  <div class="card">
+    <span class="inner">
+      <span class="mark"></span>
+    </span>
+  </div>
+{:else}
+  <div class="card num-{number} {color}">
+    <span class="inner">
+      <span class="mark">{number}</span>
+    </span>
+  </div>
+{/if}
 
 <style>  
   @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:900);

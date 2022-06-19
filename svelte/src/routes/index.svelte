@@ -4,8 +4,27 @@
 
 <script>
   import { onMount } from "svelte";
+  import { flip } from "svelte/animate";
+  import { dndzone } from "svelte-dnd-action";
   import { socket } from "$lib/realtime.js";
   import Card from "$lib/Card.svelte";
+  import uno from "$lib/sound/uno-1.ogg";
+  import unouno from "$lib/sound/uno-uno-1.ogg";
+  import hadi from "$lib/sound/hadi-1.ogg";
+
+  const playSound = function (file) {
+    const audio = new Audio(file);
+    audio.loop = false;
+    audio.play(); 
+  };
+
+  const flipDurationMs = 300;
+  function handleDndConsider(e) {
+      items = e.detail.items;
+  };
+  function handleDndFinalize(e) {
+      items = e.detail.items;
+  };
 
   let isim;
   let girisYapmis = false;
@@ -13,7 +32,20 @@
   let players = [];
   let isGameStarted = false;
   let yourHand = [];
+  let items = [];
   let revealCards = [];
+  let lastReveal;
+
+  const addCardIds = (array) => {
+    for (let i = 0; i < array.length; i++) {
+      const card = array[i];
+      card.id = i + 1;
+    };
+    return array;
+  };
+
+  $: lastReveal = revealCards[revealCards.length - 1];
+  $: items = addCardIds(yourHand);
 
   onMount(() => {
     if (localStorage.isim) {
@@ -74,7 +106,9 @@
         hazir,
         id: socket.id
       });
-    };  
+    };
+
+    playSound(hadi);
   };
 
   const cikisYap = () => {
@@ -114,7 +148,23 @@
     <button on:click={cikisYap} class="bg-red-700 rounded-2xl mt-3 p-3 w-28">Çıkış yap</button>
   {:else if isGameStarted}
     <p>Ortadaki kartlar</p>
-    <p class="absolute bottom-40">Elindeki kartlar</p>
+    <div class="flex flex-row">
+      <div>
+        <!-- <p class="text-blue-100 left-0 top-0 relative">Kart çek</p> -->
+        <Card />
+      </div>
+      <Card {...lastReveal}/>
+    </div>
+    <div class="m-7">
+      <section use:dndzone="{{items, flipDurationMs}}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}" class="flex flex-row">
+        {#each items as card(card.id)}
+          <div animate:flip="{{duration:flipDurationMs}}">
+            <Card {...card}/>
+          </div>
+        {/each}
+      </section>
+      <p>Elindeki kartlar</p>
+    </div>
   {/if}
     <div class="rounded border absolute left-1 top-1 w-28">
       <h1 class="text-xl p-1 border">Oyuncular</h1>
