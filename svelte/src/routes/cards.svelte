@@ -22,6 +22,8 @@
 
 <section>
   {#each cards as card}
-    <Card {...card}/>
+    <div>
+      <Card {...card}/>
+    </div>
   {/each}
 </section>

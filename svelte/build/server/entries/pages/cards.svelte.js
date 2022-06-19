@@ -44,7 +44,8 @@ const Cards = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 
 
 <section>${each(cards, (card) => {
-    return `${validate_component(Card, "Card").$$render($$result, Object.assign(card), {}, {})}`;
+    return `<div>${validate_component(Card, "Card").$$render($$result, Object.assign(card), {}, {})}
+    </div>`;
   })}</section>`;
 });
 export { Cards as default };

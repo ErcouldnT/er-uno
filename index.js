@@ -144,6 +144,10 @@ io.on('connection', socket => {
     console.log(players);
     gameCheck();
   });
+
+  socket.on("message", msg => {
+    io.emit("message" ,msg);
+  });
 });
 
 app.use(handler);

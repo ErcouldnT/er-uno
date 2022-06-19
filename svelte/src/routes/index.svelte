@@ -36,6 +36,25 @@
   let revealCards = [];
   let lastReveal;
 
+  // Message
+  let message;
+  let messages = [];
+
+  const mesajGonder = () => {
+    if (!message) return;
+    if (isim) {
+      socket.emit("message", {
+        isim,
+        message,
+        date: Date.now()
+      });
+      message = "";
+    };
+  };
+
+  // Game
+  
+
   const addCardIds = (array) => {
     for (let i = 0; i < array.length; i++) {
       const card = array[i];
@@ -88,6 +107,12 @@
     socket.on("reveal-cards", cards => {
       revealCards = cards;
       console.log(revealCards);
+    });
+
+    socket.on("message", msg => {
+      // console.log(msg);
+      messages.push(msg);
+      messages = [...messages];
     });
   });
 
@@ -172,8 +197,15 @@
         <p class={player.hazir ? "bg-green-700 border" : "bg-yellow-600 border"}>{player.isim}</p>
       {/each}
     </div>
-    <div class="rounded border absolute left-1 bottom-1 w-28">
-      <h1 class="text-xl p-1 border">Chat</h1>
+    <div class="rounded border absolute left-1 bottom-1">
+      {#if messages.length > 0}
+        {#each messages as message}
+          <p class="mx-1 text-left"><span class="font-semibold">{message.isim}</span>: {message.message}</p>
+        {/each}
+      {/if}
+      <form on:submit|preventDefault={mesajGonder}>
+        <input bind:value={message} class="px-2 text-blue-900" placeholder="Mesaj gönder" type="text">
+      </form>
     </div>
     <div class="rounded border absolute right-1 top-1 w-28">
       <h1 class="text-xl p-1 border">Uno!</h1>

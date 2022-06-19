@@ -5,6 +5,8 @@ const Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let isim;
   let players = [];
   let yourHand = [];
+  let message;
+  let messages = [];
   const addCardIds = (array) => {
     for (let i = 0; i < array.length; i++) {
       const card = array[i];
@@ -24,7 +26,10 @@ const Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       ${each(players, (player) => {
     return `<p${add_attribute("class", player.hazir ? "bg-green-700 border" : "bg-yellow-600 border", 0)}>${escape(player.isim)}</p>`;
   })}</div>
-    <div class="${"rounded border absolute left-1 bottom-1 w-28"}"><h1 class="${"text-xl p-1 border"}">Chat</h1></div>
+    <div class="${"rounded border absolute left-1 bottom-1"}">${messages.length > 0 ? `${each(messages, (message2) => {
+    return `<p class="${"mx-1 text-left"}"><span class="${"font-semibold"}">${escape(message2.isim)}</span>: ${escape(message2.message)}</p>`;
+  })}` : ``}
+      <form><input class="${"px-2 text-blue-900"}" placeholder="${"Mesaj g\xF6nder"}" type="${"text"}"${add_attribute("value", message, 0)}></form></div>
     <div class="${"rounded border absolute right-1 top-1 w-28"}"><h1 class="${"text-xl p-1 border"}">Uno!</h1></div>
     <div class="${"rounded border absolute right-1 bottom-1 w-28"}"><h1 class="${"text-xl p-1 border"}">Puan</h1></div></section>`;
 });
