@@ -8,9 +8,10 @@
   import { dndzone } from "svelte-dnd-action";
   import { socket } from "$lib/realtime.js";
   import Card from "$lib/Card.svelte";
-  import uno from "$lib/sound/uno-1.ogg";
+  import uno from "$lib/sound/uno-3.ogg";
   import unouno from "$lib/sound/uno-uno-1.ogg";
   import hadi from "$lib/sound/hadi-1.ogg";
+  import chatAlert from "$lib/sound/chat_alart.mp3";
 
   const playSound = function (file) {
     const audio = new Audio(file);
@@ -35,6 +36,7 @@
   let items = [];
   let revealCards = [];
   let lastReveal;
+  let unocular = [];
 
   // Message
   let message;
@@ -42,6 +44,9 @@
 
   const mesajGonder = () => {
     if (!message) return;
+    if (!isim) {
+      return alert("Önce isim yazarak giriş yapmalısın.")
+    };
     if (isim) {
       socket.emit("message", {
         isim,
@@ -119,8 +124,15 @@
 
     socket.on("message", msg => {
       // console.log(msg);
+      playSound(chatAlert);
       messages.push(msg);
       messages = [...messages];
+    });
+
+    socket.on("uno-alert", isim => {
+      unocular.push(isim);
+      unocular = [...unocular];
+      playSound(uno);
     });
   });
 
@@ -161,6 +173,19 @@
       localStorage.hazir = true;
       socket.emit("ready");
     };
+  };
+
+  const unoAlert = () => {
+    // if (yourHand.length !== 1) {
+    //   return alert("Elinizde sadece bir kart kaldığında Uno diyebilirsiniz.");
+    // };
+    
+    playSound(uno);
+    socket.emit("uno-alert", isim)
+  };
+
+  const kurallar = () => {
+    return alert("Her oyuncu elindeki kartı ıskarta destesinin en üstündeki kart ile eşleştirmek zorundadır. Bu eşleştirme sayıya, renge veya sembole dayalı olabilir. Eğer elde ıskarta destesindeki kartla eşleşen bir kart yoksa, çekme destesinden bir kart çekilmesi gerekmektedir. Çekilen kartla oynanabiliyorsa, aynı turda ortaya atılabilir. Aksi takdirde sıra bir sonraki oyuncuya geçer. Her oyuncu desteden istediği kadar kart çekebilir. Ayrıca istenirse aynı renkten iki kart atılabilir. Son bir kartı kalan oyuncu mutlaka uno diye bağırmalıdır aksi halde ceza olarak +1 kart çeker ve oyunu bitiremez. Oyuncular kendi arasında uno diyen oyuncunun elini tahmin edebiliyor ise oyunu bitirmemesi için yönlendirmede bulunabilirler. Bütün kartlarını bitiren ilk kişi oyunu kazanır.")
   };
 </script>
 
@@ -217,9 +242,12 @@
       </form>
     </div>
     <div class="rounded border absolute right-1 top-1 w-28">
-      <h1 class="text-xl p-1 border">Uno!</h1>
+      <button on:click={unoAlert} class="text-xl border w-full p-1 bg-green-600">Uno!</button>
+      {#each unocular as unocu}
+        <p class="border bg-red-600"><span class="font-semibold">{unocu}</span></p>
+      {/each}
     </div>
     <div class="rounded border absolute right-1 bottom-1 w-28">
-      <h1 class="text-xl p-1 border">Puan</h1>
+      <h1 on:click={kurallar} class="hover:bg-yellow-600 text-xl p-1 border cursor-pointer">Kurallar</h1>
     </div>
 </section>

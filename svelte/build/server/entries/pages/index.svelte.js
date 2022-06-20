@@ -5,6 +5,7 @@ const Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let isim;
   let players = [];
   let yourHand = [];
+  let unocular = [];
   let message;
   let messages = [];
   const addCardIds = (array) => {
@@ -31,7 +32,10 @@ const Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   })}
         <button class="${"bg-red-700 w-full"}">Temizle</button>` : ``}
       <form><input class="${"w-full px-2 text-blue-900"}" placeholder="${"Mesaj g\xF6nder"}" type="${"text"}"${add_attribute("value", message, 0)}></form></div>
-    <div class="${"rounded border absolute right-1 top-1 w-28"}"><h1 class="${"text-xl p-1 border"}">Uno!</h1></div>
-    <div class="${"rounded border absolute right-1 bottom-1 w-28"}"><h1 class="${"text-xl p-1 border"}">Puan</h1></div></section>`;
+    <div class="${"rounded border absolute right-1 top-1 w-28"}"><button class="${"text-xl border w-full p-1 bg-green-600"}">Uno!</button>
+      ${each(unocular, (unocu) => {
+    return `<p class="${"border bg-red-600"}"><span class="${"font-semibold"}">${escape(unocu)}</span></p>`;
+  })}</div>
+    <div class="${"rounded border absolute right-1 bottom-1 w-28"}"><h1 class="${"hover:bg-yellow-600 text-xl p-1 border cursor-pointer"}">Kurallar</h1></div></section>`;
 });
 export { Routes as default };

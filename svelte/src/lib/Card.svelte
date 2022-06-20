@@ -21,6 +21,18 @@
 <style>  
   @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:900);
 
+  :root {
+    --scale: 0.5
+  }
+
+  .wrapper {
+    transform: scale(var(--scale));
+  }
+
+  .wrapper > * {
+    transform: scale(calc(1/var(--scale)));
+  }
+
   .card {
     width:116px;height:178px;float:left;
     background:#fff;
@@ -44,6 +56,7 @@
     box-shadow:0 0 10px #aaaaaa;
     text-align:center;
     position:relative;
+    /* transform: scale(0.5); */
   }
   .card .inner{
     display:table-cell;
