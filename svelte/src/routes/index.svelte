@@ -187,6 +187,15 @@
   const kurallar = () => {
     return alert("Her oyuncu elindeki kartı ıskarta destesinin en üstündeki kart ile eşleştirmek zorundadır. Bu eşleştirme sayıya, renge veya sembole dayalı olabilir. Eğer elde ıskarta destesindeki kartla eşleşen bir kart yoksa, çekme destesinden bir kart çekilmesi gerekmektedir. Çekilen kartla oynanabiliyorsa, aynı turda ortaya atılabilir. Aksi takdirde sıra bir sonraki oyuncuya geçer. Her oyuncu desteden istediği kadar kart çekebilir. Ayrıca istenirse aynı renkten iki kart atılabilir. Son bir kartı kalan oyuncu mutlaka uno diye bağırmalıdır aksi halde ceza olarak +1 kart çeker ve oyunu bitiremez. Oyuncular kendi arasında uno diyen oyuncunun elini tahmin edebiliyor ise oyunu bitirmemesi için yönlendirmede bulunabilirler. Bütün kartlarını bitiren ilk kişi oyunu kazanır.")
   };
+
+  const yeniKartCek = () => {
+    socket.emit("yeni-kart-cek");
+  };
+
+  const ortayaKartAt = (kart) => {
+    // console.log(kart);
+    socket.emit("ortaya-kart-at", kart);
+  };
 </script>
 
 <section class="flex flex-col text-center h-screen items-center justify-center">
@@ -207,7 +216,7 @@
   {:else if isGameStarted}
     <p>Ortadaki kartlar</p>
     <div class="flex flex-row">
-      <div>
+      <div class="cursor-pointer" on:dblclick={yeniKartCek}>
         <!-- <p class="text-blue-100 left-0 top-0 relative">Kart çek</p> -->
         <Card {...remaining}/>
       </div>
@@ -216,7 +225,7 @@
     <div class="m-7">
       <section use:dndzone="{{items, flipDurationMs}}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}" class="flex flex-row">
         {#each items as card(card.id)}
-          <div animate:flip="{{duration:flipDurationMs}}">
+          <div on:dblclick={ortayaKartAt(card)} animate:flip="{{duration:flipDurationMs}}">
             <Card {...card}/>
           </div>
         {/each}
@@ -235,7 +244,7 @@
         {#each messages as message}
           <p class="mx-1 text-left"><span class="font-semibold">{message.isim}</span>: {message.message}</p>
         {/each}
-        <button class="bg-red-700 w-full" on:click={clearChat}>Temizle</button>
+        <button class="bg-red-700 w-full" on:click={clearChat}>Mesajları sil</button>
       {/if}
       <form on:submit|preventDefault={mesajGonder}>
         <input bind:value={message} class="w-full px-2 text-blue-900" placeholder="Mesaj gönder" type="text">

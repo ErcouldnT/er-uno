@@ -30,7 +30,7 @@ const Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     <div class="${"rounded border absolute left-1 bottom-1"}">${messages.length > 0 ? `${each(messages, (message2) => {
     return `<p class="${"mx-1 text-left"}"><span class="${"font-semibold"}">${escape(message2.isim)}</span>: ${escape(message2.message)}</p>`;
   })}
-        <button class="${"bg-red-700 w-full"}">Temizle</button>` : ``}
+        <button class="${"bg-red-700 w-full"}">Mesajlar\u0131 sil</button>` : ``}
       <form><input class="${"w-full px-2 text-blue-900"}" placeholder="${"Mesaj g\xF6nder"}" type="${"text"}"${add_attribute("value", message, 0)}></form></div>
     <div class="${"rounded border absolute right-1 top-1 w-28"}"><button class="${"text-xl border w-full p-1 bg-green-600"}">Uno!</button>
       ${each(unocular, (unocu) => {

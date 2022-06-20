@@ -17,6 +17,7 @@ const io = new Server(server, {
 let players = [];
 let isGameStarted = false;
 let deck = [];
+let revealCards = [];
 
 const randomDeck = array => {
   for (let i = 0; i < array.length; i += 1) {
@@ -101,6 +102,7 @@ io.on('connection', socket => {
     // Starts game when everyone is ready
     // GAME STARTER ------------------------
     if (isEveryoneReady()) {
+      revealCards = [];
       deck = randomDeck(unoDeck.slice());
       // todo: herkesin elini özelden gönder.
       for (let i = 0; i < players.length; i++) {
@@ -116,7 +118,6 @@ io.on('connection', socket => {
         io.to(player.id).emit("your-hand", player.hand);
       };
       // todo: ortaya açılan kartları gönder.
-      let revealCards = [];
       revealCards.push(deck.pop());
       io.emit("reveal-cards", revealCards);
       io.emit("remaining", deck.length);
@@ -124,6 +125,43 @@ io.on('connection', socket => {
       io.emit("game-started");
     };
     // GAME STARTER ------------------------
+  });
+
+  socket.on("yeni-kart-cek", () => {
+    for (let i = 0; i < players.length; i++) {
+      const player = players[i];
+      if (player.id === socket.id) {
+        player.hand.push(deck.pop());
+        io.to(player.id).emit("your-hand", player.hand);
+        // kart kalmamışsa revealDeck ten kopyala shuffle et yeni deck yarat.
+        if (deck.length === 0) {
+          // TODO: Shuffle et!
+          deck = [...revealCards];
+        };
+        io.emit("remaining", deck.length);
+      };
+    };
+  });
+
+  socket.on("ortaya-kart-at", card => {
+    const lastReveal = revealCards[revealCards.length - 1];
+    if (!(card.number === lastReveal.number || card.color === lastReveal.color)) {
+      return;
+    };
+
+    for (let i = 0; i < players.length; i++) {
+      const player = players[i];
+      // (!) aynı karttan 2 adet varsa ikisini de atar ama 1 sayar...
+      // let zatenAtildi = false;
+      if (player.id === socket.id) {
+        player.hand = player.hand?.filter((c) => {
+          return !(c.number === card.number && c.color === card.color);
+        });
+        io.to(player.id).emit("your-hand", player.hand);
+        revealCards.push(card);
+        io.emit("reveal-cards", revealCards);
+      };
+    };
   });
 
   socket.on("no-ready", () => {
