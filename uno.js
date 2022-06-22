@@ -74,3 +74,5 @@ for (let i = 0; i < colors.length; i++) {
 // };
 
 export const unoDeck = deck;
+// todo: her karta id ver ve kart atma işlemlerinde id'yi de kontrol et.
+// fix for dublicate card silinmesi.

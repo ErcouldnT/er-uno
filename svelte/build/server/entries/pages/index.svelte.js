@@ -16,6 +16,10 @@ const Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     return array;
   };
   addCardIds(yourHand);
+  {
+    if (yourHand.length > 1)
+      ;
+  }
   return `${$$result.head += `${$$result.title = `<title>\xC7a\u011Fr\u0131 Uno!</title>`, ""}`, ""}
 
 

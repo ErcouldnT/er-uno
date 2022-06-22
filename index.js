@@ -19,7 +19,13 @@ let isGameStarted = false;
 let deck = [];
 let revealCards = [];
 
-const randomDeck = array => {
+const randomFirstPlayer = () => {
+  const randomPlayer = players[Math.floor(Math.random() * players.length)];
+  randomPlayer.isPlaying = true;
+  return randomPlayer.isim;
+};
+
+const randomDeck = (array) => {
   for (let i = 0; i < array.length; i += 1) {
     const randomIndex = Math.floor(Math.random() * array.length);
     // Exchange a[i] and a[j]
@@ -123,6 +129,18 @@ io.on('connection', socket => {
       io.emit("remaining", deck.length);
       isGameStarted = true;
       io.emit("game-started");
+      io.emit("message", {
+        isim: "Uno",
+        message: "Herkese bol şans!"
+      });
+
+      // ilk oyuncuyu rastgele detect etme fonksiyonu çalıştır.
+      const firstPlayer = randomFirstPlayer();
+      io.emit("active-player", firstPlayer);
+      io.emit("message", {
+        isim: "Uno",
+        message: firstPlayer + " oyuna başlıyor!"
+      });
     };
     // GAME STARTER ------------------------
   });
@@ -133,10 +151,15 @@ io.on('connection', socket => {
       if (player.id === socket.id) {
         player.hand.push(deck.pop());
         io.to(player.id).emit("your-hand", player.hand);
-        // kart kalmamışsa revealDeck ten kopyala shuffle et yeni deck yarat.
+        // kart kalmamışsa revealDeck'ten kopyala shuffle et yeni deck yarat.
         if (deck.length === 0) {
-          // TODO: Shuffle et!
-          deck = [...revealCards];
+          // shuffle et! ve revealDeck "son kart hariç" boşalt!
+          const sonAtilanKart = revealCards.pop();
+          // son kart olmadan yeni deck oluştur ve shuffle et
+          deck = randomDeck(revealCards);
+          // revealCards boşalt ve son kartı revealCards'a geri ekle
+          revealCards = [ sonAtilanKart ];
+          // socket ile tekrar frontend e göndermeye gerek yok.
         };
         io.emit("remaining", deck.length);
       };
@@ -162,6 +185,42 @@ io.on('connection', socket => {
         io.emit("reveal-cards", revealCards);
       };
     };
+  });
+
+  socket.on("pass-gec", () => {
+    const index = players.findIndex(p => {
+      return p.isPlaying === true;
+    });
+    players[index].isPlaying = false;
+
+    if (players[index + 1]) {
+      var nextPlayer = players[index + 1];
+    } else {
+      var nextPlayer = players[0];
+    };
+    nextPlayer.isPlaying = true;
+
+    io.emit("active-player", nextPlayer.isim);
+    io.emit("message", {
+      isim: "Uno",
+      message: "Sıradaki oyuncu " + nextPlayer.isim + "!"
+    });
+
+    console.log(players);
+  });
+
+  socket.on("unoCall", (isim) => {
+    io.emit("unoCall");  // send isim, too (later)
+    io.emit("message", {
+      isim: "Uno",
+      message: isim + " Uno!"
+    });
+  });
+  
+  // socket.on("no-uno-alert");
+
+  socket.on("game-over", isim => {
+    io.emit("game-over", isim);
   });
 
   socket.on("no-ready", () => {

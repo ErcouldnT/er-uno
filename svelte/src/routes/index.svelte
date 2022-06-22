@@ -63,6 +63,22 @@
 
   // Game
   const remaining = {};
+  let pass = false;
+  let tasAtti = false;
+  let tasCekti = false;
+  let activePlayer;  // oyun başladığında socket'ten gelecek!
+  let unoCall = false;
+
+  const passGec = () => {
+    if (pass && activePlayer === isim) {
+      socket.emit("pass-gec");
+      pass = false;
+      tasAtti = true;
+      tasCekti = true;
+    } else if (activePlayer === isim) {
+      alert("Ortadan kart çek veya kart oyna!");
+    };
+  };
 
   const addCardIds = (array) => {
     for (let i = 0; i < array.length; i++) {
@@ -74,6 +90,19 @@
 
   $: lastReveal = revealCards[revealCards.length - 1];
   $: items = addCardIds(yourHand);
+  $: if (activePlayer === isim) {
+    tasAtti = false;
+    tasCekti = false;
+    // if (yourHand.length > 1) {
+    //   unoCall = false;
+    // };
+  };
+  $: if (yourHand.length > 1) {
+    unoCall = false;
+  };
+  // $: if (unoCall === false) {
+  //   socket.emit("no-uno-call");
+  // };
 
   onMount(() => {
     if (localStorage.isim) {
@@ -129,10 +158,26 @@
       messages = [...messages];
     });
 
-    socket.on("uno-alert", isim => {
-      unocular.push(isim);
-      unocular = [...unocular];
+    // socket.on("uno-alert", isim => {
+    //   unocular.push(isim);
+    //   unocular = [...unocular];
+    //   playSound(uno);
+    // });
+
+    socket.on("active-player", player => {
+      activePlayer = player;
+    });
+
+    socket.on("unoCall", () => {
       playSound(uno);
+    });
+
+    socket.on("game-over", winner => {
+      if (winner === isim) {
+        alert("Tebrikler, oyunu kazandın!");
+      } else {
+        alert(winner + " oyunu kazandı.");
+      };
     });
   });
 
@@ -176,12 +221,13 @@
   };
 
   const unoAlert = () => {
-    // if (yourHand.length !== 1) {
-    //   return alert("Elinizde sadece bir kart kaldığında Uno diyebilirsiniz.");
-    // };
-    
-    playSound(uno);
-    socket.emit("uno-alert", isim)
+    if (yourHand.length !== 1) {
+      return alert("Elinizde sadece bir kart kaldığında Uno diyebilirsiniz.");
+    };
+
+    // playSound(uno);
+    socket.emit("unoCall", isim);
+    unoCall = true;
   };
 
   const kurallar = () => {
@@ -189,12 +235,42 @@
   };
 
   const yeniKartCek = () => {
-    socket.emit("yeni-kart-cek");
+    if (!tasCekti && activePlayer === isim) {
+      socket.emit("yeni-kart-cek");
+      tasCekti = true;
+      pass = true;
+      unoCall = false;
+    };
+  };
+
+  const tekrarAtabilirMi = (kart) => {
+    // şevval'den gelen direktifler doğrultusunda doldur.
+    // farklı renkteki aynı sayı olan kartları peşpeşe atabilir.
+    if (lastReveal.number === kart.number) {
+      return true;
+    } else {
+      return false;
+    };
   };
 
   const ortayaKartAt = (kart) => {
-    // console.log(kart);
-    socket.emit("ortaya-kart-at", kart);
+    const elindeVarMi = yourHand.find(c => kart.color === lastReveal.color || kart.number === lastReveal.number);
+
+    if (yourHand.length === 1 && !unoCall && elindeVarMi && !tasAtti) {
+      return alert("Uno çağrısı yapmadan oyunu bitiremezsin!");
+    };
+
+    if (activePlayer === isim && !tasAtti && elindeVarMi || tekrarAtabilirMi(kart)) {
+      socket.emit("ortaya-kart-at", kart);
+      tasAtti = true;
+      tasCekti = true;
+      pass = true;
+    };
+
+    if (yourHand.length <= 1 && unoCall) {
+      socket.emit("game-over", isim);
+      // socket puanları hesaplasın herkesin ekranına yaz.
+    };
   };
 </script>
 
@@ -214,6 +290,11 @@
     <button on:click={toggleHazirOl} class="{hazir ? "bg-green-700" : "bg-yellow-600"} rounded-2xl mt-3 p-3 w-28">{hazir ? "Hazırsın" : "Hazır ol"}</button>
     <button on:click={cikisYap} class="bg-red-700 rounded-2xl mt-3 p-3 w-28">Çıkış yap</button>
   {:else if isGameStarted}
+    <div class="">
+      <button on:click={passGec} class="{pass ? "bg-green-500" : "bg-red-500"} rounded-xl px-3 py-1 m-3 text-2xl">
+        {activePlayer === isim ? "Sıra sende. Pas!" : activePlayer + " isimli oyuncu oynuyor"}
+      </button>
+    </div>
     <p>Ortadaki kartlar</p>
     <div class="flex flex-row">
       <div class="cursor-pointer" on:dblclick={yeniKartCek}>
