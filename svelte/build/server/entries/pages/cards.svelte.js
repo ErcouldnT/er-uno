@@ -28,8 +28,8 @@ const Card = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   if ($$props.color === void 0 && $$bindings.color && color !== void 0)
     $$bindings.color(color);
   $$result.css.add(css);
-  return `${number && !color ? `<div class="${"m-1 rounded bg-white border p-10 max-w-0 shadow-lg flex justify-center items-center"}"><p class="${"text-6xl font-bold text-gray-700"}">${escape(number)}</p></div>
-  ` : `<div class="${"m-1 bg-white rounded border p-10 max-w-0 shadow-lg flex justify-center items-center"}"><p class="${"text-6xl font-bold " + escape(color) + " svelte-1alvyz5"}">${escape(number)}</p></div>
+  return `${number && !color ? `<div class="${"cursor-pointer m-1 rounded bg-white border p-10 max-w-0 shadow-lg flex justify-center items-center"}"><p class="${"text-6xl font-bold text-gray-700"}">${escape(number)}</p></div>
+  ` : `<div class="${"cursor-pointer m-1 bg-white rounded border p-10 max-w-0 shadow-lg flex justify-center items-center"}"><p class="${"text-6xl font-bold " + escape(color) + " svelte-1alvyz5"}">${escape(number)}</p></div>
   `}`;
 });
 const Cards = create_ssr_component(($$result, $$props, $$bindings, slots) => {

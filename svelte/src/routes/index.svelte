@@ -274,7 +274,7 @@
   };
 </script>
 
-<section class="flex flex-col text-center h-screen items-center justify-center">
+<section class="flex flex-col text-center items-center justify-center">
   {#if !girisYapmis}
     <div class="text-3xl p-5 mb-3">Uno'ya Hoşgeldin!</div>
     <form class="flex flex-col items-center justify-center">
@@ -303,15 +303,15 @@
       </div>
       <Card {...lastReveal}/>
     </div>
-    <div class="m-7">
-      <section use:dndzone="{{items, flipDurationMs}}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}" class="flex flex-row">
-        {#each items as card(card.id)}
-          <div on:dblclick={ortayaKartAt(card)} animate:flip="{{duration:flipDurationMs}}">
-            <Card {...card}/>
-          </div>
-        {/each}
-      </section>
-      <p>Elindeki kartlar</p>
+    <div class="m-7 flex flex-row">
+      {#each items as card}
+        <div on:dblclick={ortayaKartAt(card)}>
+          <Card {...card}/>
+        </div>
+      {/each}
+      <!-- <section use:dndzone="{{items, flipDurationMs}}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}" class="flex flex-row">
+      </section> -->
+      <!-- <p>Elindeki kartlar</p> -->
     </div>
   {/if}
     <div class="rounded border absolute left-1 top-1 w-28">
@@ -320,7 +320,7 @@
         <p class={player.hazir ? "bg-green-700 border" : "bg-yellow-600 border"}>{player.isim}</p>
       {/each}
     </div>
-    <div class="rounded border absolute left-1 bottom-1">
+    <!-- <div class="rounded border absolute left-1 bottom-1">
       {#if messages.length > 0}
         {#each messages as message}
           <p class="mx-1 text-left"><span class="font-semibold">{message.isim}</span>: {message.message}</p>
@@ -330,14 +330,14 @@
       <form on:submit|preventDefault={mesajGonder}>
         <input bind:value={message} class="w-full px-2 text-blue-900" placeholder="Mesaj gönder" type="text">
       </form>
-    </div>
+    </div> -->
     <div class="rounded border absolute right-1 top-1 w-28">
       <button on:click={unoAlert} class="text-xl border w-full p-1 bg-green-600">Uno!</button>
       {#each unocular as unocu}
         <p class="border bg-red-600"><span class="font-semibold">{unocu}</span></p>
       {/each}
     </div>
-    <div class="rounded border absolute right-1 bottom-1 w-28">
+    <!-- <div class="rounded border absolute right-1 bottom-1 w-28">
       <h1 on:click={kurallar} class="hover:bg-yellow-600 text-xl p-1 border cursor-pointer">Kurallar</h1>
-    </div>
+    </div> -->
 </section>

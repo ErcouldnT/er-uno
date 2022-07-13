@@ -4,12 +4,12 @@
 </script>
 
 {#if number && !color}
-  <div class="m-1 rounded bg-white border p-10 max-w-0 shadow-lg flex justify-center items-center">
+  <div class="cursor-pointer m-1 rounded bg-white border p-10 max-w-0 shadow-lg flex justify-center items-center">
     <p class="text-6xl font-bold text-gray-700">{number}</p>
   </div>
   <!-- <p>Yeni kart</p> -->
 {:else}
-  <div class="m-1 bg-white rounded border p-10 max-w-0 shadow-lg flex justify-center items-center">
+  <div class="cursor-pointer m-1 bg-white rounded border p-10 max-w-0 shadow-lg flex justify-center items-center">
     <p class="text-6xl font-bold {color}">{number}</p>
   </div>
   <!-- <div class="card num-{number} {color}">
