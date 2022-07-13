@@ -280,11 +280,12 @@
       tasAtti = true;
       tasCekti = true;
       pass = true;
-    };
-
-    if (yourHand.length <= 1 && unoCall) {
-      socket.emit("game-over", isim);
-      // socket puanları hesaplasın herkesin ekranına yaz.
+      
+      // Finishing game
+      if (yourHand.length <= 1 && unoCall) {
+        socket.emit("game-over", isim);
+        // socket puanları hesaplasın herkesin ekranına yaz.
+      };
     };
   };
 </script>
