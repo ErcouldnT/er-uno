@@ -4,14 +4,12 @@
 </script>
 
 {#if number && !color}
-  <div class="card">
-    <span class="inner">
-      {number}
-    </span>
+  <div class="m-1 rounded bg-white border p-10 max-w-0 shadow-lg flex justify-center items-center">
+    <p class="text-6xl font-bold text-gray-700">{number}</p>
   </div>
-  <p>Yeni kart</p>
+  <!-- <p>Yeni kart</p> -->
 {:else}
-  <div class="bg-white border p-10 max-w-0 shadow-lg flex justify-center items-center">
+  <div class="m-1 bg-white rounded border p-10 max-w-0 shadow-lg flex justify-center items-center">
     <p class="text-6xl font-bold {color}">{number}</p>
   </div>
   <!-- <div class="card num-{number} {color}">
@@ -29,19 +27,19 @@
   } */
 
   .blue {
-    @apply text-blue-500
+    @apply text-[#0063B3]
   }
 
   .red {
-    @apply text-red-500
+    @apply text-[#C72A18]
   }
 
   .yellow {
-    @apply text-yellow-300
+    @apply text-[#E6CA1E]
   }
 
   .green {
-    @apply text-green-500
+    @apply text-[#18A849]
   }
 
   .wrapper {
