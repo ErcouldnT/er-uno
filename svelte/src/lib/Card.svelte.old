@@ -11,37 +11,18 @@
   </div>
   <p>Yeni kart</p>
 {:else}
-  <div class="bg-white border p-10 max-w-0 shadow-lg flex justify-center items-center">
-    <p class="text-6xl font-bold {color}">{number}</p>
-  </div>
-  <!-- <div class="card num-{number} {color}">
+  <div class="card num-{number} {color}">
     <span class="inner">
       <span class="mark">{number}</span>
     </span>
-  </div> -->
+  </div>
 {/if}
 
 <style>  
   @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:900);
 
-  /* :root {
+  :root {
     --scale: 0.5
-  } */
-
-  .blue {
-    @apply text-blue-500
-  }
-
-  .red {
-    @apply text-red-500
-  }
-
-  .yellow {
-    @apply text-yellow-300
-  }
-
-  .green {
-    @apply text-green-500
   }
 
   .wrapper {
