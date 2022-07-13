@@ -69,6 +69,9 @@
   let activePlayer;  // oyun başladığında socket'ten gelecek!
   let unoCall = false;
 
+  // AH ŞEVVAL AH
+  let clickedCard;
+
   const passGec = () => {
     if (pass && activePlayer === isim) {
       socket.emit("pass-gec");
@@ -253,7 +256,19 @@
     };
   };
 
-  const ortayaKartAt = (kart) => {
+  const kartTiklama = (kart) => {
+    clickedCard = kart;
+    console.log(clickedCard);
+  };
+
+  const ortayaKartAt = () => {
+    console.log("şevval ortaya tıkladı");
+    if (!clickedCard) {
+      return;
+    };
+
+    let kart = clickedCard;
+
     const elindeVarMi = yourHand.find(c => kart.color === lastReveal.color || kart.number === lastReveal.number);
 
     if (yourHand.length === 1 && !unoCall && elindeVarMi && !tasAtti) {
@@ -301,11 +316,13 @@
         <!-- <p class="text-blue-100 left-0 top-0 relative">Kart çek</p> -->
         <Card {...remaining}/>
       </div>
-      <Card {...lastReveal}/>
+      <div on:click={ortayaKartAt}>
+        <Card {...lastReveal}/>
+      </div>
     </div>
     <div class="m-7 flex flex-row">
       {#each items as card}
-        <div on:dblclick={ortayaKartAt(card)}>
+        <div on:click={kartTiklama(card)}>
           <Card {...card}/>
         </div>
       {/each}
